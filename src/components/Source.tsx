@@ -1,12 +1,12 @@
 import {useMemo, FC, ReactNode, CSSProperties, SyntheticEvent, HTMLAttributes} from 'react';
-import {LineOfSyntax, SyntaxElement} from 'source-tokenizer';
-import {RenderSyntaxTree, EventAttributes, RenderGutter} from '../interface';
+import {OutputLineOfSyntax, OutputSyntaxElement} from '@otakustay/source-tokenizer';
+import {RenderSyntaxTree, EventAttributes, RenderGutter} from '../interface/index.js';
 
 interface SourceProps {
     className?: string;
     style?: CSSProperties;
     source?: string;
-    syntax?: LineOfSyntax[];
+    syntax?: OutputLineOfSyntax[];
     renderSyntaxTree?: RenderSyntaxTree;
     renderGutter?: RenderGutter;
     lineStart?: number;
@@ -22,16 +22,18 @@ const mapEventsWith = (events?: EventAttributes) => (line: number): HTMLAttribut
     }
 
     const entries = Object.entries(events);
-    return entries.reduce(
+    return entries.reduce<HTMLAttributes<HTMLTableCellElement>>(
         (events, [name, fn]) => {
+            // @ts-expect-error fix this later
+            // eslint-disable-next-line no-param-reassign
             events[name] = (e: SyntheticEvent) => (fn && fn(line, e));
             return events;
         },
-        {} as HTMLAttributes<HTMLTableCellElement>
+        {}
     );
 };
 
-const renderGenericElement = (element: SyntaxElement, i: number): ReactNode => {
+const renderGenericElement = (element: OutputSyntaxElement, i: number): ReactNode => {
     if (typeof element === 'string') {
         return element;
     }
@@ -43,8 +45,8 @@ const renderGenericElement = (element: SyntaxElement, i: number): ReactNode => {
     );
 };
 
-const renderSyntaxContent = (syntax: LineOfSyntax, {renderSyntaxTree}: SourceProps): ReactNode => {
-    const render = (element: SyntaxElement, i: number) => {
+const renderSyntaxContent = (syntax: OutputLineOfSyntax, {renderSyntaxTree}: SourceProps): ReactNode => {
+    const render = (element: OutputSyntaxElement, i: number) => {
         if (typeof element === 'string') {
             return element;
         }
@@ -65,7 +67,7 @@ const renderLineWith = (props: SourceProps) => {
     const mapCodeEvents = mapEventsWith(codeEvents);
     const selection = new Set(selectedLines);
 
-    return (children: ReactNode[], current: string | LineOfSyntax, i: number): ReactNode[] => {
+    return (children: ReactNode[], current: string | OutputLineOfSyntax, i: number): ReactNode[] => {
         const lineNumber = i + lineStart;
 
         const lineElement = (

@@ -1,9 +1,8 @@
-/* eslint-disable react/jsx-no-bind */
-import '@testing-library/jest-dom/extend-expect';
+import {describe, test, expect, vi} from 'vitest';
 import {render, fireEvent} from '@testing-library/react';
-import {highlight} from 'refractor';
-import {tokenize} from 'source-tokenizer';
-import {Source} from '../Source';
+import {refractor} from 'refractor';
+import {tokenize} from '@otakustay/source-tokenizer';
+import {Source} from '../Source.js';
 
 const source = `const a = 3;
 console.log(3);`;
@@ -17,7 +16,7 @@ describe('Source', () => {
     test('syntax source', () => {
         const options = {
             highlight(source) {
-                return highlight(source, 'javascript');
+                return refractor.highlight(source, 'javascript');
             },
         };
         const syntax = tokenize(source, options);
@@ -28,7 +27,7 @@ describe('Source', () => {
     test('custom syntax renderer', () => {
         const options = {
             highlight(source) {
-                return highlight(source, 'javascript');
+                return refractor.highlight(source, 'javascript');
             },
         };
         const syntax = tokenize(source, options);
@@ -58,11 +57,11 @@ describe('Source', () => {
 
     test('custom start line number', () => {
         const {container} = render(<Source source={source} lineStart={8} />);
-        expect(container.querySelector('.source-gutter')).toHaveAttribute('data-line-number', '8');
+        expect(container.querySelector('.source-gutter')?.getAttribute('data-line-number')).toBe('8');
     });
 
     test('custom gutter event', () => {
-        const click = jest.fn();
+        const click = vi.fn();
         const {container} = render(<Source source={source} gutterEvents={{onClick: click}} />);
         fireEvent.click(container.querySelector('.source-gutter'), {});
         expect(click).toHaveBeenCalledTimes(1);
@@ -71,7 +70,7 @@ describe('Source', () => {
     });
 
     test('custom code event', () => {
-        const click = jest.fn();
+        const click = vi.fn();
         const {container} = render(<Source source={source} codeEvents={{onClick: click}} />);
         fireEvent.click(container.querySelector('.source-code'), {});
         expect(click).toHaveBeenCalledTimes(1);

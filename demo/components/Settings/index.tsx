@@ -1,7 +1,7 @@
 import {cloneElement, FC, useCallback, CSSProperties, ReactElement} from 'react';
 import {Select, Checkbox} from 'antd';
-import DebouncedInput from '../DebouncedInput';
-// @ts-ignore
+import {CheckboxChangeEvent} from 'antd/es/checkbox/index.js';
+import DebouncedInput from '../DebouncedInput/index.js';
 import c from './index.less';
 
 const {Option} = Select;
@@ -35,19 +35,19 @@ interface Props {
 const Settings: FC<Props> = ({value, onChange}) => {
     const {language = 'text', markTab, markCarriageReturn} = value;
     const udpateLanguage = useCallback(
-        language => onChange({...value, language: language === 'text' ? undefined : language}),
+        (language: string) => onChange({...value, language: language === 'text' ? undefined : language}),
         [value, onChange]
     );
     const updateKeyword = useCallback(
-        keyword => onChange({...value, keyword}),
+        (keyword: string) => onChange({...value, keyword}),
         [value, onChange]
     );
     const updateMarkTab = useCallback(
-        e => onChange({...value, markTab: e.target.checked}),
+        (e: CheckboxChangeEvent) => onChange({...value, markTab: e.target.checked}),
         [value, onChange]
     );
     const updateMarkCarriageReturn = useCallback(
-        e => onChange({...value, markCarriageReturn: e.target.checked}),
+        (e: CheckboxChangeEvent) => onChange({...value, markCarriageReturn: e.target.checked}),
         [value, onChange]
     );
 

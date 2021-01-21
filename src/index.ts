@@ -1,3 +1,2 @@
-/* istanbul ignore file */
-export * from './components/Source';
-export * from './interface';
+export * from './components/Source.js';
+export * from './interface/index.js';

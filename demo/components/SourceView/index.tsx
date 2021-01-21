@@ -1,13 +1,12 @@
 import {useMemo, FC, CSSProperties, MouseEvent} from 'react';
 import {flatMap} from 'lodash';
-import {highlight} from 'refractor';
-import {tokenize, pickRanges, SourceRange} from 'source-tokenizer';
+import {refractor} from 'refractor';
+import {tokenize, pickRanges, SourceRange} from '@otakustay/source-tokenizer';
 import 'prism-color-variables/variables.css';
 import 'prism-color-variables/themes/visual-studio.css';
-import {Source, RenderSyntaxTree, EventAttributes} from '../../../src';
-import '../../../src/index.css';
-import useSelection from './selection';
-// @ts-ignore
+import {Source, RenderSyntaxTree, EventAttributes} from '@otakustay/react-source-view';
+import '@otakustay/react-source-view/index.css';
+import useSelection from './selection.js';
 import c from './index.less';
 
 const renderTree: RenderSyntaxTree = (root, defaultRender, i) => {
@@ -50,7 +49,7 @@ const SourceView: FC<Props> = ({style, source, keyword, language}) => {
                 ? flatMap(lines, (line, i) => findKeywordRangesInLine(i + 1, line, keyword))
                 : [];
             const tokenizeOptions = {
-                highlight: language ? (source: string) => highlight(source, language) : undefined,
+                highlight: language ? (source: string) => refractor.highlight(source, language) : undefined,
                 enhancers: [pickRanges(keywordRanges)],
             };
             return tokenize(source, tokenizeOptions);

@@ -1,10 +1,10 @@
 /* istanbul ignore file */
 import {ReactNode, DOMAttributes, SyntheticEvent} from 'react';
-import {SyntaxElement, TreeNode} from 'source-tokenizer';
+import {OutputSyntaxElement, OutputContainerNode} from '@otakustay/source-tokenizer';
 
-export type RenderSyntaxTree = (root: TreeNode, defaultRender: RenderSyntaxElement, i: number) => ReactNode;
+export type RenderSyntaxTree = (root: OutputContainerNode, defaultRender: RenderSyntaxElement, i: number) => ReactNode;
 
-export type RenderSyntaxElement = (element: SyntaxElement, i: number) => ReactNode;
+export type RenderSyntaxElement = (element: OutputSyntaxElement, i: number) => ReactNode;
 
 type DOMEvents = Omit<DOMAttributes<HTMLTableCellElement>, 'children' | 'dangerouslySetInnerHTML'>;
 

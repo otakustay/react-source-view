@@ -1,8 +1,7 @@
 import {useState, FC} from 'react';
-import DebouncedInput from '../DebouncedInput';
-import SourceView from '../SourceView';
-import Settings, {SourceSettings} from '../Settings';
-// @ts-ignore
+import DebouncedInput from '../DebouncedInput/index.js';
+import SourceView from '../SourceView/index.js';
+import Settings, {SourceSettings} from '../Settings/index.js';
 import c from './index.less';
 
 const App: FC = () => {
@@ -15,7 +14,9 @@ const App: FC = () => {
                 <DebouncedInput is="textarea" rows={12} placeholder="Source code" onChange={setSource} />
             </div>
             <Settings value={settings} onChange={setSettings} />
-            {source && <SourceView style={{marginTop: 20}} source={source} {...settings} />}
+            <div style={{width: 400, overflow: 'auto'}}>
+                {source && <SourceView style={{marginTop: 20}} source={source} {...settings} />}
+            </div>
         </div>
     );
 };
