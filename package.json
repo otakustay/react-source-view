@@ -5,13 +5,15 @@
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "exports": {
-    ".": "./dist/index.js"
+    ".": "./dist/index.js",
+    "./style/index.css": "./style/index.css"
   },
   "repository": "git@github.com:otakustay/react-source-view.git",
   "license": "MIT",
   "author": "otakustay <otakustay@gmail.com>",
   "files": [
-    "dist"
+    "dist",
+    "style"
   ],
   "sideEffects": [
     "**/*.css",
@@ -22,8 +24,8 @@
   },
   "scripts": {
     "prepare": "husky install",
-    "clean": "rm -rf dist",
-    "build": "npm run clean && tsc -p tsconfig.build.json",
+    "clean": "rm -rf dist style",
+    "build": "npm run clean && tsc -p tsconfig.build.json && mkdir style && cp src/index.css style/index.css",
     "start": "skr dev --src-dir=demo",
     "lint": "eslint src demo",
     "lint-staged": "lint-staged",

@@ -102,8 +102,10 @@ dist
 
 # TernJS port file
 .tern-port
-/cjs
-/es
+
+# build output
+/dist
+/style
 
 # yarn
 .pnp.*
