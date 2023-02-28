@@ -1,7 +1,8 @@
+import {ReactNode} from 'react';
 import {describe, test, expect, vi} from 'vitest';
 import {render, fireEvent} from '@testing-library/react';
 import {refractor} from 'refractor';
-import {tokenize} from '@otakustay/source-tokenizer';
+import {OutputSyntaxElement, tokenize} from '@otakustay/source-tokenizer';
 import {Source} from '../Source.js';
 
 const source = `const a = 3;
@@ -15,7 +16,7 @@ describe('Source', () => {
 
     test('syntax source', () => {
         const options = {
-            highlight(source) {
+            highlight: (source: string) => {
                 return refractor.highlight(source, 'javascript');
             },
         };
@@ -26,12 +27,12 @@ describe('Source', () => {
 
     test('custom syntax renderer', () => {
         const options = {
-            highlight(source) {
+            highlight: (source: string) => {
                 return refractor.highlight(source, 'javascript');
             },
         };
         const syntax = tokenize(source, options);
-        const stripSyntax = node => {
+        const stripSyntax = (node: OutputSyntaxElement): ReactNode => {
             if (typeof node === 'string') {
                 return node;
             }
@@ -63,7 +64,7 @@ describe('Source', () => {
     test('custom gutter event', () => {
         const click = vi.fn();
         const {container} = render(<Source source={source} gutterEvents={{onClick: click}} />);
-        fireEvent.click(container.querySelector('.source-gutter'), {});
+        fireEvent.click(container.querySelector('.source-gutter')!, {});
         expect(click).toHaveBeenCalledTimes(1);
         expect(click.mock.calls[0][0]).toBe(1);
         expect(click.mock.calls[0][1]).toBeTruthy();
@@ -72,14 +73,14 @@ describe('Source', () => {
     test('custom code event', () => {
         const click = vi.fn();
         const {container} = render(<Source source={source} codeEvents={{onClick: click}} />);
-        fireEvent.click(container.querySelector('.source-code'), {});
+        fireEvent.click(container.querySelector('.source-code')!, {});
         expect(click).toHaveBeenCalledTimes(1);
         expect(click.mock.calls[0][0]).toBe(1);
         expect(click.mock.calls[0][1]).toBeTruthy();
     });
 
     test('custom gutter renderer', () => {
-        const renderGutter = line => <span>Custom line {line}</span>;
+        const renderGutter = (line: number) => <span>Custom line {line}</span>;
         const {getByText} = render(<Source source={source} renderGutter={renderGutter} />);
         expect(getByText('Custom line 1')).toBeTruthy();
     });
@@ -88,5 +89,10 @@ describe('Source', () => {
         const selectedLines = [2];
         const {container} = render(<Source source={source} selectedLines={selectedLines} />);
         expect(container.querySelectorAll('.source-line-selected').length).toBe(1);
+    });
+
+    test('line wrap', () => {
+        const {container} = render(<Source wrapLine source={source} />);
+        expect(container.querySelectorAll('.source-wrap-line').length).toBe(1);
     });
 });

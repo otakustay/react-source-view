@@ -7,6 +7,7 @@
     --source-code-background-color: #eaffee;
     --source-gutter-selected-background-color: #fffce0;
     --source-code-selected-background-color: #fffce0;
+    --source-gutter-width: 4ch;
 }
 
 .source {
@@ -39,7 +40,8 @@
 .source-gutter {
     position: sticky;
     left: 0;
-    width: 7ch;
+    width: var(--source-gutter-width);
+    min-width: var(--source-gutter-width);
     padding: 0 1ch;
     text-align: right;
     cursor: pointer;
@@ -60,6 +62,12 @@
 }
 
 .source-code {
-    white-space: nowrap;
+    white-space: pre;
     padding: 0 0 0 .5em;
 }
+
+.source-wrap-line .source-code {
+    word-wrap: break-word;
+    word-break: break-all;
+}
+

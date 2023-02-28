@@ -1,4 +1,3 @@
-/* istanbul ignore file */
 import {ReactNode, DOMAttributes, SyntheticEvent} from 'react';
 import {OutputSyntaxElement, OutputContainerNode} from '@otakustay/source-tokenizer';
 

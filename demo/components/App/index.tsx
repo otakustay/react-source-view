@@ -4,9 +4,16 @@ import SourceView from '../SourceView/index.js';
 import Settings, {SourceSettings} from '../Settings/index.js';
 import c from './index.less';
 
+const DEFAULT_SETTINGS: SourceSettings = {
+    keyword: '',
+    wrapLine: false,
+    markTab: false,
+    markCarriageReturn: false,
+};
+
 const App: FC = () => {
     const [source, setSource] = useState('');
-    const [settings, setSettings] = useState<SourceSettings>({keyword: '', markTab: false, markCarriageReturn: false});
+    const [settings, setSettings] = useState(DEFAULT_SETTINGS);
 
     return (
         <div className={c.root}>

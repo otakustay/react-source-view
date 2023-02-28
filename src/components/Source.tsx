@@ -14,6 +14,7 @@ interface SourceProps {
     gutterEvents?: EventAttributes;
     codeEvents?: EventAttributes;
     selectedLines?: number[];
+    wrapLine?: boolean;
 }
 
 const mapEventsWith = (events?: EventAttributes) => (line: number): HTMLAttributes<HTMLTableCellElement> => {
@@ -106,12 +107,17 @@ const renderLineWith = (props: SourceProps) => {
 };
 
 export const Source: FC<SourceProps> = props => {
-    const {source, syntax, className, style} = props;
+    const {source, syntax, className, style, wrapLine} = props;
     const lines = useMemo(() => source?.split('\n') ?? [], [source]);
     const renderLine = renderLineWith(props);
+    const classNames = [
+        'source',
+        wrapLine && 'source-wrap-line',
+        className,
+    ];
 
     return (
-        <div className={className ? `source ${className}` : 'source'} style={style}>
+        <div className={classNames.filter(v => !!v).join(' ')} style={style}>
             <table className="source-content">
                 <tbody>
                     {syntax ? syntax.reduce(renderLine, []) : lines.reduce(renderLine, [])}

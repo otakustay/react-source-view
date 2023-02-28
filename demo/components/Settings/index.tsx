@@ -11,6 +11,7 @@ export interface SourceSettings {
     language?: string;
     markTab: boolean;
     markCarriageReturn: boolean;
+    wrapLine: boolean;
 }
 
 interface FieldProps {
@@ -33,9 +34,13 @@ interface Props {
 
 
 const Settings: FC<Props> = ({value, onChange}) => {
-    const {language = 'text', markTab, markCarriageReturn} = value;
+    const {language = 'text', wrapLine, markTab, markCarriageReturn} = value;
     const udpateLanguage = useCallback(
         (language: string) => onChange({...value, language: language === 'text' ? undefined : language}),
+        [value, onChange]
+    );
+    const updateWrapLine = useCallback(
+        (e: CheckboxChangeEvent) => onChange({...value, wrapLine: e.target.checked}),
         [value, onChange]
     );
     const updateKeyword = useCallback(
@@ -64,6 +69,11 @@ const Settings: FC<Props> = ({value, onChange}) => {
             </Field>
             <Field title="Search" style={{width: 320}}>
                 <DebouncedInput onChange={updateKeyword} />
+            </Field>
+            <Field>
+                <Checkbox checked={wrapLine} onChange={updateWrapLine}>
+                    Wrap Line
+                </Checkbox>
             </Field>
             <Field>
                 <Checkbox checked={markTab} onChange={updateMarkTab}>

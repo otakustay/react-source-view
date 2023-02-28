@@ -39,9 +39,10 @@ interface Props {
     source: string;
     keyword: string;
     language?: string;
+    wrapLine: boolean;
 }
 
-const SourceView: FC<Props> = ({style, source, keyword, language}) => {
+const SourceView: FC<Props> = ({style, source, keyword, language, wrapLine}) => {
     const syntax = useMemo(
         () => {
             const lines = source.split('\n');
@@ -71,6 +72,7 @@ const SourceView: FC<Props> = ({style, source, keyword, language}) => {
 
     return (
         <Source
+            wrapLine={wrapLine}
             key={source}
             style={style}
             source={source}
