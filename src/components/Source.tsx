@@ -111,10 +111,12 @@ export const Source: FC<SourceProps> = props => {
     const renderLine = renderLineWith(props);
 
     return (
-        <table className={className ? `source ${className}` : 'source'} style={style}>
-            <tbody>
-                {syntax ? syntax.reduce(renderLine, []) : lines.reduce(renderLine, [])}
-            </tbody>
-        </table>
+        <div className={className ? `source ${className}` : 'source'} style={style}>
+            <table className="source-content">
+                <tbody>
+                    {syntax ? syntax.reduce(renderLine, []) : lines.reduce(renderLine, [])}
+                </tbody>
+            </table>
+        </div>
     );
 };

@@ -1,5 +1,5 @@
 :root {
-    --source-background-color: initial;
+    --source-background-color: #fff;
     --source-text-color: initial;
     --source-font-family: Consolas, Courier, monospace;
     --source-selection-background-color: #b3d7ff;
@@ -12,9 +12,13 @@
 .source {
     background-color: var(--source-background-color);
     color: var(--source-text-color);
+    width: 100%;
+    overflow: auto;
+}
+
+.source-content {
     table-layout: fixed;
     border-collapse: collapse;
-    width: 100%;
 }
 
 .source::selection {
@@ -33,11 +37,14 @@
 }
 
 .source-gutter {
+    position: sticky;
+    left: 0;
     width: 7ch;
     padding: 0 1ch;
     text-align: right;
     cursor: pointer;
     user-select: none;
+    background-color: var(--source-background-color);
 }
 
 .source-line-selected > .source-gutter {
@@ -53,8 +60,6 @@
 }
 
 .source-code {
-    white-space: pre-wrap;
-    word-wrap: break-word;
-    word-break: break-all;
+    white-space: nowrap;
     padding: 0 0 0 .5em;
 }
